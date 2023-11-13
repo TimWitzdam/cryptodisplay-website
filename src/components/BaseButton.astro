@@ -1,0 +1,21 @@
+---
+interface Props {
+  text: string;
+  secondary?: boolean;
+  icon?: string;
+  fullWidth?: boolean;
+}
+
+const { text, secondary, icon, fullWidth } = Astro.props;
+---
+
+<button
+  class="rounded-xl p-3 px-8 h-fit font-semibold"
+  class:list={[
+    { "w-full": fullWidth },
+    { "bg-primary": !secondary },
+    { "border-2 border-primary": secondary },
+  ]}
+>
+  <span>{text}</span>
+</button>

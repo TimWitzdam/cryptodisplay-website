@@ -1,5 +1,20 @@
 ---
+import BaseButton from "../components/BaseButton.astro";
 import Layout from "../layouts/default.astro";
 ---
 
-<Layout />
+<Layout>
+  <section class="px-6 mt-12">
+    <h1 class="font-extrabold text-4xl text-center mb-4">
+      Track Crypto Prices on Discord
+    </h1>
+    <p class="opacity-60 text-center">
+      Tracks cryptoprices in channels. Stay updated with current crypto prices
+      like BTC, ETH, and 13,000 more. Also, track current gas prices.
+    </p>
+    <div class="mt-10 flex flex-col gap-4">
+      <BaseButton text="Try it out now" fullWidth />
+      <BaseButton text="Browse features" secondary fullWidth />
+    </div>
+  </section>
+</Layout>

@@ -1,5 +1,5 @@
 ---
-
+import BaseButton from "../components/BaseButton.astro";
 ---
 
 <!doctype html>
@@ -9,10 +9,21 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body>
-    <main class="min-h-screen bg-[#2C2E3A]">
+  <body class="bg-[#2C2E3A]">
+    <header>
+      <div class="flex justify-between items-center px-6">
+        <img
+          src="/logo.webp"
+          alt="CryptoDisplay Logo"
+          width="200"
+          height="52"
+        />
+        <BaseButton text="Login" />
+      </div>
+    </header>
+    <main class="min-h-screen">
       <div
-        class="h-full w-full absolute top-0 left-0"
+        class="h-full w-full absolute top-0 left-0 -z-10"
         style="background: linear-gradient(147deg, rgba(56, 62, 96, 0.62) 9.29%, #2C2E3A 40%);"
       >
       </div>
@@ -20,3 +31,18 @@
     </main>
   </body>
 </html>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    color: white;
+  }
+</style>
