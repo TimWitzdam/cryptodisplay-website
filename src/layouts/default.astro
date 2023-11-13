@@ -29,6 +29,34 @@ import BaseButton from "../components/BaseButton.astro";
       </div>
       <slot />
     </main>
+    <footer class="bg-secondary mt-16">
+      <div
+        class="flex flex-col gap-6 justify-between max-w-6xl mx-auto px-6 py-12 sm:flex-row"
+      >
+        <div class="flex flex-col justify-center gap-6 lg:flex-row">
+          <div class="flex flex-col">
+            <p class="mb-2 text-xl font-bold">Pages</p>
+            <a href="/" class="opacity-60 hover:opacity-100 transition-opacity"
+              >Home</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="bg-secondary min-w-screen p-5 text-black">
+        <div class="max-w-6xl mx-auto flex items-center">
+          <img
+            src="/developer.webp"
+            alt="Tim Witzdam"
+            width="50"
+            height="50"
+            class="w-10 mr-4 rounded-full"
+          />
+          <p class="text-sm opacity-60">
+            © 2023 Tim Witzdam. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
 
