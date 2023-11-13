@@ -1,10 +1,30 @@
 ---
 const servers = [
-  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
-  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
-  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
-  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
-  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+  {
+    name: "Crypto Bot",
+    members: "15.000",
+    image: { src: "/logo-2.webp", alt: "Crypto Bot" },
+  },
+  {
+    name: "Crypto Bot",
+    members: "15.000",
+    image: { src: "/logo-2.webp", alt: "Crypto Bot" },
+  },
+  {
+    name: "Crypto Bot",
+    members: "15.000",
+    image: { src: "/logo-2.webp", alt: "Crypto Bot" },
+  },
+  {
+    name: "Crypto Bot",
+    members: "15.000",
+    image: { src: "/logo-2.webp", alt: "Crypto Bot" },
+  },
+  {
+    name: "Crypto Bot",
+    members: "15.000",
+    image: { src: "/logo-2.webp", alt: "Crypto Bot" },
+  },
 ];
 ---
 
@@ -49,7 +69,12 @@ const servers = [
       servers.map((server) => (
         <div class="swiper-slide">
           <div class="border-2 border-primary p-4 flex items-center gap-4 rounded-xl">
-            <img src={server.image} class="rounded-full" width="50" />
+            <img
+              src={server.image.src}
+              alt={server.image.alt}
+              class="rounded-full"
+              width="50"
+            />
             <div>
               <p class="font-semibold text-lg leading-5">{server.name}</p>
               <p class="opacity-60">{server.members} Members</p>
