@@ -1,0 +1,51 @@
+---
+const servers = [
+  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+  { name: "Crypto Bot", members: "15.000", image: "/logo-2.webp" },
+];
+---
+
+<script>
+  import Swiper from "swiper";
+  import "swiper/css";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css/navigation";
+  import type { SwiperOptions } from "swiper/types";
+
+  Swiper.use([Autoplay]);
+
+  const swiperParams: SwiperOptions = {
+    observer: true,
+    observeParents: true,
+    parallax: true,
+    slidesPerView: 1.2,
+    spaceBetween: 30,
+    rewind: true,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+    },
+  };
+  var swiper = new Swiper(".mySwiper", swiperParams);
+</script>
+
+<div class="flex items-center mySwiper">
+  <div class="swiper-wrapper">
+    {
+      servers.map((server) => (
+        <div class="swiper-slide">
+          <div class="border-2 border-primary p-4 flex items-center gap-4 rounded-xl">
+            <img src={server.image} class="rounded-full" width="50" />
+            <div>
+              <p class="font-semibold text-lg leading-5">{server.name}</p>
+              <p class="opacity-60">{server.members} Members</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>

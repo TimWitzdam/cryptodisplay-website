@@ -1,5 +1,6 @@
 ---
 import BaseButton from "../components/BaseButton.astro";
+import TheServerSwiper from "../components/TheServerSwiper.astro";
 import Layout from "../layouts/default.astro";
 ---
 
@@ -15,6 +16,14 @@ import Layout from "../layouts/default.astro";
     <div class="mt-10 flex flex-col gap-4">
       <BaseButton text="Try it out now" fullWidth />
       <BaseButton text="Browse features" secondary fullWidth />
+    </div>
+  </section>
+  <section class="mt-12 bg-secondary py-6">
+    <div class="px-6">
+      <p class="text-[#A5A5A8] text-center mb-4 font-semibold">
+        ✅ Trusted by <span>7.621</span> servers
+      </p>
+      <TheServerSwiper />
     </div>
   </section>
 </Layout>
