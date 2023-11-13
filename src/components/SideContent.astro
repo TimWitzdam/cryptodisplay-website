@@ -1,0 +1,33 @@
+---
+import BaseButton from "./BaseButton.astro";
+interface Props {
+  right?: boolean;
+  heading: string;
+  buttonText: string;
+  buttonLink: string;
+}
+
+const { right, heading, buttonText, buttonLink } = Astro.props;
+---
+
+<div
+  class=`flex gap-4 flex-col-reverse md:justify-between`
+  class:list={right ? "md:flex-row-reverse" : "md:flex-row"}
+>
+  <div class="md:basis-2/5">
+    <h2 class="font-bold text-3xl text-center mb-6 md:text-left md:text-5xl">
+      {heading}
+    </h2>
+    <div class="mb-6">
+      <slot name="content" />
+    </div>
+    <a href={buttonLink}>
+      <BaseButton text={buttonText} fullWidth>
+        <slot name="buttonIcon" slot="buttonIcon" />
+      </BaseButton>
+    </a>
+  </div>
+  <div class="md:basis-2/5 my-auto">
+    <slot name="image" />
+  </div>
+</div>

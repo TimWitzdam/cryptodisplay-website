@@ -1,7 +1,9 @@
 ---
 import BaseButton from "../components/BaseButton.astro";
+import SideContent from "../components/SideContent.astro";
 import TheServerSwiper from "../components/TheServerSwiper.astro";
 import Layout from "../layouts/default.astro";
+import DiscordLogo from "../../public/icons/discord.svg?raw";
 ---
 
 <Layout>
@@ -18,12 +20,89 @@ import Layout from "../layouts/default.astro";
       <BaseButton text="Browse features" secondary fullWidth />
     </div>
   </section>
-  <section class="mt-12 bg-secondary py-6">
+  <section class="mt-16 bg-secondary py-6">
     <div class="px-6">
       <p class="text-[#A5A5A8] text-center mb-4 font-semibold">
         ✅ Trusted by <span>7.621</span> servers
       </p>
       <TheServerSwiper />
+    </div>
+  </section>
+  <section class="px-6 mt-16">
+    <SideContent
+      heading="Crypto prices at a glance"
+      buttonText="Add to Discord"
+      buttonLink=""
+    >
+      <div slot="content">
+        <p class="opacity-60">
+          Track crypto prices in channels. Stay updated with current crypto
+          prices like BTC, ETH, and 13,000 more. Also, track current gas prices.
+        </p>
+      </div>
+      <div slot="image">
+        <img
+          src="/feature-1.webp"
+          alt="Crypto prices at a glance"
+          class="rounded-xl"
+        />
+      </div>
+      <Fragment slot="buttonIcon" set:html={DiscordLogo} />
+    </SideContent>
+  </section>
+  <section class="px-6 mt-16">
+    <SideContent
+      heading="Over 5.000 Crypto Currencies listed"
+      buttonText="Add to Discord"
+      buttonLink=""
+      right
+    >
+      <div slot="content">
+        <p class="opacity-60">
+          Track crypto prices in channels. Stay updated with current crypto
+          prices like BTC, ETH, and 13,000 more. Also, track current gas prices.
+        </p>
+      </div>
+      <div slot="image">
+        <img
+          src="/feature-2.webp"
+          alt="Over 5.000 Crypto Currencies listed"
+          class="rounded-xl"
+        />
+      </div>
+      <Fragment slot="buttonIcon" set:html={DiscordLogo} />
+    </SideContent>
+  </section>
+  <section class="px-6 mt-16">
+    <h2 class="font-bold text-3xl text-center mb-6 md:text-left md:text-5xl">
+      About the developer
+    </h2>
+    <div class="flex items-center gap-2">
+      <div class="p-2 bg-secondary rounded-full">
+        <img
+          src="/developer.webp"
+          alt="Developer profile picture"
+          width="80"
+          class="rounded-full"
+        />
+      </div>
+      <div>
+        <h3 class="font-bold text-xl">Tim Witzdam</h3>
+        <div class="flex items-center gap-1 opacity-60">
+          <Fragment set:html={DiscordLogo} />
+          <p>@nightslide_</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="mt-16 bg-secondary py-6">
+    <div class="px-6">
+      <h2 class="font-bold text-3xl text-center mb-6 md:text-left md:text-5xl">
+        Stay up to date.<br />All the time
+      </h2>
+      <BaseButton text="Add to Discord" fullWidth>
+        <Fragment slot="buttonIcon" set:html={DiscordLogo} />
+      </BaseButton>
     </div>
   </section>
 </Layout>
