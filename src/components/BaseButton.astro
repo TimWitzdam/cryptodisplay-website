@@ -10,12 +10,13 @@ const { text, secondary, icon, fullWidth } = Astro.props;
 ---
 
 <button
-  class="rounded-xl p-3 px-8 h-fit font-semibold"
+  class="rounded-xl p-3 px-8 h-fit font-semibold flex items-center justify-center gap-4"
   class:list={[
     { "w-full": fullWidth },
     { "bg-primary": !secondary },
     { "border-2 border-primary": secondary },
   ]}
 >
+  <slot name="buttonIcon" />
   <span>{text}</span>
 </button>
