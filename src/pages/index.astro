@@ -7,28 +7,28 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
 ---
 
 <Layout>
-  <section class="px-6 mt-12">
-    <h1 class="font-extrabold text-4xl text-center mb-4">
-      Track Crypto Prices on Discord
+  <section class="px-6 mt-12 max-w-5xl mx-auto">
+    <h1 class="font-extrabold text-4xl text-center mb-4 md:text-5xl">
+      Track Crypto <br /> Prices on Discord
     </h1>
-    <p class="opacity-60 text-center">
+    <p class="opacity-60 text-center md:mx-auto md:w-1/3 text-lg">
       Tracks cryptoprices in channels. Stay updated with current crypto prices
       like BTC, ETH, and 13,000 more. Also, track current gas prices.
     </p>
-    <div class="mt-10 flex flex-col gap-4">
+    <div class="mt-10 flex flex-col gap-4 md:flex-row md:w-1/2 md:mx-auto">
       <BaseButton text="Try it out now" fullWidth />
       <BaseButton text="Browse features" secondary fullWidth />
     </div>
   </section>
   <section class="mt-16 bg-secondary py-6">
-    <div class="px-6">
+    <div class="px-6 max-w-5xl mx-auto">
       <p class="text-[#A5A5A8] text-center mb-4 font-semibold">
         ✅ Trusted by <span>7.621</span> servers
       </p>
       <TheServerSwiper />
     </div>
   </section>
-  <section class="px-6 mt-16">
+  <section class="px-6 mt-16 max-w-5xl mx-auto">
     <SideContent
       heading="Crypto prices at a glance"
       buttonText="Add to Discord"
@@ -50,7 +50,7 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
       <Fragment slot="buttonIcon" set:html={DiscordLogo} />
     </SideContent>
   </section>
-  <section class="px-6 mt-16">
+  <section class="px-6 mt-16 max-w-5xl mx-auto">
     <SideContent
       heading="Over 5.000 Crypto Currencies listed"
       buttonText="Add to Discord"
@@ -73,11 +73,11 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
       <Fragment slot="buttonIcon" set:html={DiscordLogo} />
     </SideContent>
   </section>
-  <section class="px-6 mt-16">
+  <section class="px-6 mt-16 max-w-5xl mx-auto">
     <h2 class="font-bold text-3xl text-center mb-6 md:text-left md:text-5xl">
       About the developer
     </h2>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-4">
       <div class="p-2 bg-secondary rounded-full">
         <img
           src="/developer.webp"
@@ -96,13 +96,15 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
     </div>
   </section>
   <section class="mt-16 bg-secondary py-6">
-    <div class="px-6">
-      <h2 class="font-bold text-3xl text-center mb-6 md:text-left md:text-5xl">
+    <div class="px-6 max-w-5xl mx-auto">
+      <h2 class="font-bold text-3xl text-center mb-6 md:text-4xl">
         Stay up to date.<br />All the time
       </h2>
-      <BaseButton text="Add to Discord" fullWidth>
-        <Fragment slot="buttonIcon" set:html={DiscordLogo} />
-      </BaseButton>
+      <div class="w-1/2 mx-auto">
+        <BaseButton text="Add to Discord" fullWidth>
+          <Fragment slot="buttonIcon" set:html={DiscordLogo} />
+        </BaseButton>
+      </div>
     </div>
   </section>
 </Layout>

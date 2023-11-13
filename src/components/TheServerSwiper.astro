@@ -17,11 +17,18 @@ const servers = [
 
   Swiper.use([Autoplay]);
 
+  // Function to update Swiper's slidesPerView based on screen width
+  function updateSwiperSlidesPerView() {
+    const newSlidesPerView = window.innerWidth >= 800 ? 3.2 : 1.2;
+    swiper.params.slidesPerView = newSlidesPerView;
+    swiper.update();
+  }
+
   const swiperParams: SwiperOptions = {
     observer: true,
     observeParents: true,
     parallax: true,
-    slidesPerView: 1.2,
+    slidesPerView: screen.width >= 800 ? 3.2 : 1.2,
     spaceBetween: 30,
     rewind: true,
     autoplay: {
@@ -29,7 +36,11 @@ const servers = [
       disableOnInteraction: false,
     },
   };
+
   var swiper = new Swiper(".mySwiper", swiperParams);
+
+  // Add a resize event listener to update the slidesPerView when the screen size changes
+  window.addEventListener("resize", updateSwiperSlidesPerView);
 </script>
 
 <div class="flex items-center swiper mySwiper">
