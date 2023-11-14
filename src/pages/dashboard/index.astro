@@ -1,7 +1,110 @@
 ---
-const cd_s = Astro.cookies.get("cd_s");
+import DashboardLayout from "../../layouts/dashboard.astro";
+import Arrow from "../../../public/icons/long-arrow.svg?raw";
+import Refresh from "../../../public/icons/refresh.svg?raw";
+import BaseButton from "../../components/BaseButton.astro";
+const cd_s = Astro.cookies.get("cd_s").value;
 ---
 
-<div>
-  {cd_s}
-</div>
+<script define:vars={{ cd_s, Arrow }}>
+  let guildsLoading = true;
+  let user = {};
+  let guilds = [];
+  let refreshButton = null;
+  let guildsElement = null;
+  function createServerListHTML() {
+    guildsElement.innerHTML = "";
+    for (const guild of guilds) {
+      const guildElement = document.createElement("a");
+      guildElement.href = `/dashboard/server/${guild.id}`;
+      guildElement.classList.add(
+        "border-2",
+        "border-primary",
+        "rounded-xl",
+        "flex",
+        "items-center",
+        "justify-between",
+        "gap-2",
+        "px-6",
+        "py-4"
+      );
+      guildElement.innerHTML = `
+    <div class="flex items-center gap-4">
+      <img src="${
+        guild.icon ? guild.icon : "/discord-logo.webp"
+      }" alt="Logo" width="35" class="${!guild.icon ? "p-1" : "rounded-full"}">
+      <span>${guild.name}</span>
+    </div>
+    ${Arrow}
+  `;
+      guildsElement.appendChild(guildElement);
+    }
+  }
+
+  function fetchGuilds() {
+    guildsLoading = true;
+    guilds = [];
+    refreshButton.classList.add("animate-spin");
+    const response = fetch("http://127.0.0.1:5000/login", {
+      headers: {
+        Session: cd_s,
+      },
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.status === "ok") {
+          user = data.user;
+          guilds = data.guilds;
+          guildsLoading = false;
+          refreshButton.classList.remove("animate-spin");
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("guilds", JSON.stringify(guilds));
+          createServerListHTML();
+        } else {
+          window.location.href = "/";
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    refreshButton = document.querySelector("#refresh-button");
+    guildsElement = document.querySelector(".guilds");
+    if (localStorage.getItem("user") && localStorage.getItem("guilds")) {
+      user = JSON.parse(localStorage.getItem("user"));
+      guilds = JSON.parse(localStorage.getItem("guilds"));
+      createServerListHTML();
+    } else {
+      fetchGuilds();
+    }
+
+    refreshButton.addEventListener("click", () => {
+      fetchGuilds();
+    });
+  });
+</script>
+
+<DashboardLayout>
+  <section class="px-6">
+    <div class="flex justify-between">
+      <div>
+        <h1 class="font-bold text-3xl">Dashboard</h1>
+        <p class="opacity-60 mb-4">Choose a server</p>
+      </div>
+      <div class="rounded-full p-4 bg-primary w-12 h-12" id="refresh-button">
+        <Fragment set:html={Refresh} />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 grid-rows-1 gap-4 guilds">
+      <!-- Guilds -->
+    </div>
+  </section>
+  <section class="px-6 mt-8">
+    <div class="flex gap-2 justify-between">
+      <p class="opacity-60">
+        Your server is not listed? Please make sure you have 'Manage Channels'
+        permissions.
+      </p>
+      <BaseButton text="Get support" secondary />
+    </div>
+  </section>
+</DashboardLayout>
