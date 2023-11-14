@@ -1,0 +1,35 @@
+---
+const auth_code = Astro.url.searchParams.get("code");
+const cookie = Astro.cookies.get("cd_s");
+if (cookie) {
+  return Astro.redirect("/dashboard");
+}
+if (!auth_code) {
+  return Astro.redirect(
+    "https://discord.com/api/oauth2/authorize?client_id=850066255472885800&redirect_uri=http%3A%2F%2Flocalhost%3A4321%2Flogin&response_type=code&scope=identify%20guilds"
+  );
+}
+---
+
+<script define:vars={{ auth_code }}>
+  fetch("http://127.0.0.1:5000/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code: auth_code,
+    }),
+  }).then((response) => {
+    if (response.status === 200) {
+      response.json().then((data) => {
+        if (data.status === "ok") {
+          document.cookie = `cd_s=${data.session_id}; path=/`;
+          window.location.href = "/dashboard";
+        } else {
+          window.location.href = "/";
+        }
+      });
+    }
+  });
+</script>
