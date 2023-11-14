@@ -13,26 +13,7 @@ const paths: {
   }[];
 }[] = [
   { name: "Home", link: "/" },
-  { name: "Dashboard", link: "/dashboard" },
-  // {
-  //   name: "Lösungen",
-  //   link: "/loesungen",
-  //   subpaths: [
-  //     {
-  //       name: "Websites",
-  //       link: "/loesungen/websites",
-  //       image: "/webshop-example.webp",
-  //       description: "Ihr Gesicht im Internet.",
-  //     },
-  //     {
-  //       name: "Hosting",
-  //       link: "/loesungen/hosting",
-  //       image: "/hosting.webp",
-  //       description: "Performant, sicher und zuverlässig.",
-  //     },
-  //     // { name: "Websites", link: "/loesungen/websites", image: "/image_5.png" },
-  //   ],
-  // },
+  { name: "Login", link: "/login" },
 ];
 
 Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
@@ -111,7 +92,9 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
         </a>
 
         <div class="hidden md:block">
-          <BaseButton text="Login" />
+          <a href="/login">
+            <BaseButton text="Login" />
+          </a>
         </div>
 
         <div class="w-8 md:hidden">
