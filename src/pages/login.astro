@@ -24,7 +24,7 @@ if (!auth_code) {
     if (response.status === 200) {
       response.json().then((data) => {
         if (data.status === "ok") {
-          document.cookie = `cd_s=${data.session_id}; path=/`;
+          document.cookie = `cd_s=${data.session_id}; path=/; max-age=604800`;
           window.location.href = "/dashboard";
         } else {
           window.location.href = "/";
