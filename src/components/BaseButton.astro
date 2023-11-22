@@ -4,14 +4,21 @@ interface Props {
   secondary?: boolean;
   icon?: string;
   fullWidth?: boolean;
+  closeButton?: boolean;
+  id?: string;
 }
 
-const { text, secondary, icon, fullWidth } = Astro.props;
+const { text, secondary, icon, fullWidth, closeButton, id } = Astro.props;
 ---
 
 <button
   class="rounded-xl p-3 px-8 h-fit font-semibold flex items-center justify-center gap-4 border-2 border-primary"
-  class:list={[{ "w-full": fullWidth }, { "bg-primary": !secondary }]}
+  class:list={[
+    { "w-full": fullWidth },
+    { "bg-primary": !secondary },
+    { "close-button": closeButton },
+  ]}
+  id={id}
 >
   <slot name="buttonIcon" />
   <span>{text}</span>

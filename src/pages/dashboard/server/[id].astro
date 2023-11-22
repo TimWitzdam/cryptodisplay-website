@@ -1,0 +1,146 @@
+---
+import DashboardLayout from "../../../layouts/dashboard.astro";
+import TheChannelDeleteMenu from "../../../components/TheChannelDeleteMenu.astro";
+import Arrow from "../../../../public/icons/long-arrow.svg?raw";
+import Trashcan from "../../../../public/icons/trashcan.svg?raw";
+const cd_s = Astro.cookies.get("cd_s").value;
+const { id } = Astro.params;
+---
+
+<script define:vars={{ cd_s, id, Trashcan }}>
+  let server = null;
+
+  function loadGuildsFromLocalStorage() {
+    for (const localStroageserver of JSON.parse(
+      localStorage.getItem("guilds")
+    )) {
+      if (localStroageserver.id === id) {
+        server = localStroageserver;
+        break;
+      }
+    }
+    if (!server) {
+      return false;
+    }
+    const serverElement = document.getElementById("server");
+    serverElement.innerHTML = `
+      <img src="${
+        server.icon ? server.icon : "/discord-logo.webp"
+      }" class="w-8 h-8 ${server.icon ? "rounded-full" : null}" />
+      <p>${server.name}</p>
+    `;
+    return true;
+  }
+
+  function fetchGuilds() {
+    const response = fetch("http://127.0.0.1:5000/login", {
+      headers: {
+        Session: cd_s,
+      },
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.status === "ok") {
+          for (const server of data.guilds) {
+            if (server.id === id) {
+              const serverElement = document.getElementById("server");
+              serverElement.innerHTML = `
+      <img src="${
+        server.icon ? server.icon : "/discord-logo.webp"
+      }" class="w-8 h-8 ${server.icon ? "rounded-full" : null}" />
+      <p>${server.name}</p>
+    `;
+            }
+          }
+        } else {
+          window.location.href = "/";
+        }
+      });
+    });
+  }
+
+  async function fetchChannels() {
+    const channelElement = document.getElementById("channels");
+    channelElement.innerHTML = `
+    <div
+        class="w-12 h-12 rounded-full animate-spin
+      border-8 border-solid border-primary border-t-transparent"
+      >
+      </div>
+    `;
+    const response = await fetch(
+      `http://127.0.0.1:5000/guilds/${id}/channels`,
+      {
+        headers: {
+          Session: cd_s,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.status === "ok") {
+      channelElement.innerHTML = "";
+      for (const channel of data.channels) {
+        channelElement.innerHTML += `
+        <div class="flex items-center justify-between border-2 border-primary rounded-xl p-4 font-semibold">
+          <div>
+            <p>${channel.name}</p>
+          </div>
+          <button class="delete-button" data-channel-id="${channel.id}">
+            ${Trashcan}
+          </button>
+        </div>
+      `;
+      }
+
+      document.querySelectorAll(".delete-button").forEach((deleteButton) => {
+        deleteButton.addEventListener("click", () => {
+          const channelId = deleteButton.dataset.channelId;
+          const channelDeleteMenu = document.querySelector(
+            ".channel-delete-menu"
+          );
+          channelDeleteMenu.classList.remove("hidden");
+          const event = new CustomEvent("open-delete-modal", {
+            detail: {
+              channel_id: channelId,
+            },
+          });
+          document.dispatchEvent(event);
+        });
+      });
+    } else {
+      window.location.href = "/dashboard";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", async function (event) {
+    if (!loadGuildsFromLocalStorage()) {
+      fetchGuilds();
+    }
+    fetchChannels();
+    document.addEventListener("refresh-channels", () => {
+      fetchChannels();
+    });
+  });
+</script>
+
+<DashboardLayout>
+  <div class="px-6">
+    <div class="flex items-center gap-4">
+      <div class="rotate-180">
+        <Fragment set:html={Arrow} />
+      </div>
+      <a href="/dashboard">Back to servers</a>
+    </div>
+    <p class="opacity-60 mt-8 mb-2">Current server:</p>
+    <div class="flex items-center gap-2" id="server"></div>
+    <h2 class="font-bold text-3xl mt-10">Active channels</h2>
+    <p class="opacity-60 mb-4">
+      View and delete your currently active channels on this server
+    </p>
+    <div id="channels" class="flex flex-col gap-4"></div>
+    <div class="channel-delete-menu">
+      <TheChannelDeleteMenu />
+    </div>
+  </div>
+</DashboardLayout>
