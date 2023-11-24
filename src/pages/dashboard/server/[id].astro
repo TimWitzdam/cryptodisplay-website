@@ -1,6 +1,7 @@
 ---
 import DashboardLayout from "../../../layouts/dashboard.astro";
 import TheChannelDeleteMenu from "../../../components/TheChannelDeleteMenu.astro";
+import SearchMenu from "../../../components/SearchMenu.astro";
 import Arrow from "../../../../public/icons/long-arrow.svg?raw";
 import Trashcan from "../../../../public/icons/trashcan.svg?raw";
 const cd_s = Astro.cookies.get("cd_s").value;
@@ -119,7 +120,7 @@ const { id } = Astro.params;
     }
     fetchChannels();
     document.addEventListener("refresh-channels", () => {
-      fetchChannels();
+      window.location.reload();
     });
   });
 </script>
@@ -142,5 +143,11 @@ const { id } = Astro.params;
     <div class="channel-delete-menu">
       <TheChannelDeleteMenu />
     </div>
+    <h2 class="font-bold text-3xl mt-10">Add channel</h2>
+    <p class="opacity-60 mb-4">Here you can add a channel to the server</p>
+    <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
+    <SearchMenu searchType="cryptos" />
+    <p class="font-semibold my-4">Fiat currency (e.g. EUR)</p>
+    <SearchMenu searchType="currencies" />
   </div>
 </DashboardLayout>

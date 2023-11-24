@@ -1,16 +1,16 @@
 ---
+const searchID = Math.random().toString(36).substring(2, 15);
+const cd_s = Astro.cookies.get("cd_s").value;
+
 interface Props {
-  items: {
-    value: string;
-    image: string | null;
-  }[];
+  searchType: "cryptos" | "currencies";
 }
 
-const { items } = Astro.props;
-const searchID = Math.random().toString(36).substring(2, 15);
+const { searchType } = Astro.props;
 ---
 
-<script define:vars={{ items, searchID }}>
+<script define:vars={{ searchID, cd_s, searchType }}>
+  var items;
   var contentElement;
   var inputElement;
   var clearButton;
@@ -29,6 +29,7 @@ const searchID = Math.random().toString(36).substring(2, 15);
       if (item.image) {
         const img = document.createElement("img");
         img.src = item.image;
+        img.loading = "lazy";
         img.classList.add("w-10", "h-10", "rounded-full");
         li.appendChild(img);
       }
@@ -39,12 +40,26 @@ const searchID = Math.random().toString(36).substring(2, 15);
     });
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const searchTerm = inputElement.value.toLowerCase();
-    const filteredData = items.filter((item) =>
-      item.value.toLowerCase().includes(searchTerm)
+    const response = await fetch(
+      `http://127.0.0.1:5000/search/${searchType}/${searchTerm}`,
+      {
+        mode: "cors",
+        headers: {
+          Session: cd_s,
+        },
+      }
     );
-    render(filteredData);
+
+    const data = await response.json();
+
+    if (data.status === "ok") {
+      render(data.data);
+      items = data.data;
+    } else {
+      render([]);
+    }
 
     // Show/hide the clear button based on input value
     clearButton.style.display = searchTerm ? "block" : "none";
@@ -56,10 +71,11 @@ const searchID = Math.random().toString(36).substring(2, 15);
     render(items);
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     contentElement = document.getElementById(`content-${searchID}`);
     inputElement = document.getElementById("searchInput");
     clearButton = document.getElementById("clearButton");
+    await handleSearch();
 
     inputElement.addEventListener("input", handleSearch);
     clearButton.addEventListener("click", handleClear);
