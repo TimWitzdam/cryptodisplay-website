@@ -7,9 +7,10 @@ interface Props {
 }
 
 const { items } = Astro.props;
+const searchID = Math.random().toString(36).substring(2, 15);
 ---
 
-<script define:vars={{ items }}>
+<script define:vars={{ items, searchID }}>
   var contentElement;
   var inputElement;
   var clearButton;
@@ -56,14 +57,13 @@ const { items } = Astro.props;
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    contentElement = document.getElementById("content");
+    contentElement = document.getElementById(`content-${searchID}`);
     inputElement = document.getElementById("searchInput");
     clearButton = document.getElementById("clearButton");
 
     inputElement.addEventListener("input", handleSearch);
     clearButton.addEventListener("click", handleClear);
 
-    render(items);
     render(items);
   });
 </script>
@@ -83,5 +83,5 @@ const { items } = Astro.props;
       x
     </button>
   </div>
-  <ul id="content" class="max-h-[300px] overflow-y-scroll"></ul>
+  <ul id=`content-${searchID}` class="max-h-[200px] overflow-y-scroll"></ul>
 </div>
