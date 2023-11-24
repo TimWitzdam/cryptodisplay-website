@@ -1,0 +1,87 @@
+---
+interface Props {
+  items: {
+    value: string;
+    image: string | null;
+  }[];
+}
+
+const { items } = Astro.props;
+---
+
+<script define:vars={{ items }}>
+  var contentElement;
+  var inputElement;
+  var clearButton;
+
+  const render = (filteredData) => {
+    contentElement.innerHTML = "";
+    filteredData.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.classList.add("flex", "items-center", "gap-4", "p-4");
+      if (index === 0) {
+        li.classList.add("border-t-2", "border-primary");
+      }
+      if (index !== filteredData.length - 1) {
+        li.classList.add("border-b-2", "border-primary");
+      }
+      if (item.image) {
+        const img = document.createElement("img");
+        img.src = item.image;
+        img.classList.add("w-10", "h-10", "rounded-full");
+        li.appendChild(img);
+      }
+      const span = document.createElement("span");
+      span.textContent = item.value;
+      li.appendChild(span);
+      contentElement.appendChild(li);
+    });
+  };
+
+  const handleSearch = () => {
+    const searchTerm = inputElement.value.toLowerCase();
+    const filteredData = items.filter((item) =>
+      item.value.toLowerCase().includes(searchTerm)
+    );
+    render(filteredData);
+
+    // Show/hide the clear button based on input value
+    clearButton.style.display = searchTerm ? "block" : "none";
+  };
+
+  const handleClear = () => {
+    inputElement.value = "";
+    clearButton.style.display = "none";
+    render(items);
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    contentElement = document.getElementById("content");
+    inputElement = document.getElementById("searchInput");
+    clearButton = document.getElementById("clearButton");
+
+    inputElement.addEventListener("input", handleSearch);
+    clearButton.addEventListener("click", handleClear);
+
+    render(items);
+    render(items);
+  });
+</script>
+
+<div class="rounded-xl border-2 border-primary text-white font-semibold">
+  <div class="relative">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search..."
+      class="bg-transparent w-full focus-within:outline-none p-4"
+    />
+    <button
+      id="clearButton"
+      class="hidden absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer w-10 h-10 bg-secondary rounded-full"
+    >
+      x
+    </button>
+  </div>
+  <ul id="content" class="max-h-[300px] overflow-y-scroll"></ul>
+</div>
