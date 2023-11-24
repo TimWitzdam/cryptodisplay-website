@@ -65,16 +65,17 @@ const { searchType } = Astro.props;
     clearButton.style.display = searchTerm ? "block" : "none";
   };
 
-  const handleClear = () => {
+  const handleClear = async () => {
     inputElement.value = "";
     clearButton.style.display = "none";
+    await handleSearch();
     render(items);
   };
 
   document.addEventListener("DOMContentLoaded", async () => {
     contentElement = document.getElementById(`content-${searchID}`);
-    inputElement = document.getElementById("searchInput");
-    clearButton = document.getElementById("clearButton");
+    inputElement = document.getElementById(`searchInput-${searchID}`);
+    clearButton = document.getElementById(`clearButton-${searchID}`);
     await handleSearch();
 
     inputElement.addEventListener("input", handleSearch);
@@ -88,12 +89,12 @@ const { searchType } = Astro.props;
   <div class="relative">
     <input
       type="text"
-      id="searchInput"
+      id=`searchInput-${searchID}`
       placeholder="Search..."
       class="bg-transparent w-full focus-within:outline-none p-4"
     />
     <button
-      id="clearButton"
+      id=`clearButton-${searchID}`
       class="hidden absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer w-10 h-10 bg-secondary rounded-full"
     >
       x
