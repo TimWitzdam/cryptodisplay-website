@@ -1,6 +1,7 @@
 ---
 import DashboardLayout from "../../../layouts/dashboard.astro";
 import TheChannelDeleteMenu from "../../../components/TheChannelDeleteMenu.astro";
+import BaseButton from "../../../components/BaseButton.astro";
 import SearchMenu from "../../../components/SearchMenu.astro";
 import Arrow from "../../../../public/icons/long-arrow.svg?raw";
 import Trashcan from "../../../../public/icons/trashcan.svg?raw";
@@ -27,7 +28,9 @@ const { id } = Astro.params;
     serverElement.innerHTML = `
       <img src="${
         server.icon ? server.icon : "/discord-logo.webp"
-      }" class="w-8 h-8 ${server.icon ? "rounded-full" : null}" />
+      }" class="w-8 h-8 object-contain ${
+        server.icon ? "rounded-full" : null
+      }" />
       <p>${server.name}</p>
     `;
     return true;
@@ -47,7 +50,9 @@ const { id } = Astro.params;
               serverElement.innerHTML = `
       <img src="${
         server.icon ? server.icon : "/discord-logo.webp"
-      }" class="w-8 h-8 ${server.icon ? "rounded-full" : null}" />
+      }" class="w-8 h-8 object-contain ${
+        server.icon ? "rounded-full" : null
+      }" />
       <p>${server.name}</p>
     `;
             }
@@ -59,7 +64,7 @@ const { id } = Astro.params;
     });
   }
 
-  async function fetchChannels() {
+  async function fetchChannels(count = null) {
     const channelElement = document.getElementById("channels");
     channelElement.innerHTML = `
     <div
@@ -69,7 +74,9 @@ const { id } = Astro.params;
       </div>
     `;
     const response = await fetch(
-      `http://127.0.0.1:5000/guilds/${id}/channels`,
+      `http://127.0.0.1:5000/guilds/${id}/channels?${
+        count ? `count=${count}` : ""
+      }`,
       {
         headers: {
           Session: cd_s,
@@ -108,6 +115,7 @@ const { id } = Astro.params;
           });
           document.dispatchEvent(event);
         });
+        return data.more;
       });
     } else {
       window.location.href = "/dashboard";
@@ -118,9 +126,20 @@ const { id } = Astro.params;
     if (!loadGuildsFromLocalStorage()) {
       fetchGuilds();
     }
-    fetchChannels();
+    const showAllChannelsButton = document.getElementById("show-all-channels");
+
+    const moreChannels = await fetchChannels(5);
+    if (moreChannels) {
+      showAllChannelsButton.classList.remove("hidden");
+    }
+
     document.addEventListener("refresh-channels", () => {
       window.location.reload();
+    });
+
+    showAllChannelsButton.addEventListener("click", () => {
+      fetchChannels();
+      showAllChannelsButton.classList.add("hidden");
     });
   });
 </script>
@@ -140,14 +159,22 @@ const { id } = Astro.params;
       View and delete your currently active channels on this server
     </p>
     <div id="channels" class="flex flex-col gap-4"></div>
+    <button class="w-full mt-4 hidden" id="show-all-channels">
+      <p class="text-center">Show all channels</p>
+    </button>
     <div class="channel-delete-menu">
       <TheChannelDeleteMenu />
     </div>
     <h2 class="font-bold text-3xl mt-10">Add channel</h2>
     <p class="opacity-60 mb-4">Here you can add a channel to the server</p>
-    <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
-    <SearchMenu searchType="cryptos" />
-    <p class="font-semibold my-4">Fiat currency (e.g. EUR)</p>
-    <SearchMenu searchType="currencies" />
+    <div>
+      <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
+      <SearchMenu searchType="cryptos" />
+    </div>
+    <div class="my-4">
+      <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
+      <SearchMenu searchType="currencies" />
+    </div>
+    <BaseButton text="Add channel" fullWidth />
   </div>
 </DashboardLayout>
