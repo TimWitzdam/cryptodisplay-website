@@ -111,6 +111,7 @@ const { id } = Astro.params;
           const event = new CustomEvent("open-delete-modal", {
             detail: {
               channel_id: channelId,
+              guild_id: id,
             },
           });
           document.dispatchEvent(event);

@@ -20,8 +20,9 @@ const cd_s = Astro.cookies.get("cd_s").value;
       >
       </div>`;
       const channel_id = e.detail.channel_id;
+      const guild_id = e.detail.guild_id;
 
-      fetch(`http://127.0.0.1:5000/channels/${channel_id}`, {
+      fetch(`http://127.0.0.1:5000/guilds/${guild_id}/channels/${channel_id}`, {
         method: "DELETE",
         headers: {
           Session: cd_s,
@@ -37,6 +38,7 @@ const cd_s = Astro.cookies.get("cd_s").value;
           } else {
             modal_content.innerHTML = `
             <p class="text-center">An error occurred while deleting the channel.</p>
+            <p class="text-center">${data.data}</p>
             `;
           }
         });
