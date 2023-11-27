@@ -14,6 +14,7 @@ const { searchType } = Astro.props;
   var contentElement;
   var inputElement;
   var clearButton;
+  var selectedItemId = null;
 
   const render = (filteredData) => {
     contentElement.innerHTML = "";
@@ -36,6 +37,31 @@ const { searchType } = Astro.props;
       const span = document.createElement("span");
       span.textContent = item.value;
       li.appendChild(span);
+      contentElement.appendChild(li);
+
+      li.addEventListener("click", () => {
+        if (selectedItemId !== item.id) {
+          selectedItemId = item.id;
+          const selectedElement = document.getElementById(
+            "selected-" + searchID
+          );
+          selectedElement.classList.remove("hidden");
+          selectedElement.innerHTML = li.innerHTML;
+        }
+
+        const searchMenu = document.getElementById(`searchMenu-${searchID}`);
+        searchMenu.style.display = "none";
+
+        const event = new CustomEvent("search", {
+          detail: {
+            id: item.id,
+            type: searchType,
+            value: item.value,
+          },
+        });
+        document.dispatchEvent(event);
+      });
+
       contentElement.appendChild(li);
     });
   };
@@ -85,7 +111,16 @@ const { searchType } = Astro.props;
   });
 </script>
 
-<div class="rounded-xl border-2 border-primary text-white font-semibold">
+<div
+  class="hidden rounded-xl border-2 border-primary p-4 flex items-center font-bold gap-4"
+  id=`selected-${searchID}`
+>
+</div>
+
+<div
+  class="rounded-xl border-2 border-primary text-white font-semibold"
+  id=`searchMenu-${searchID}`
+>
   <div class="relative">
     <input
       type="text"
