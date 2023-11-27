@@ -154,6 +154,36 @@ const { id } = Astro.params;
         selectedCurrencyName = value;
       }
     });
+
+    const addChannelButton = document.getElementById("add-channel-button");
+    const errorElement = document.getElementById("error");
+    addChannelButton.addEventListener("click", async () => {
+      errorElement.innerHTML = "";
+      if (!selectedCryptoAPIID || !selectedCurrencyName) {
+        errorElement.innerHTML = `
+          <p class="text-red-500">Please make sure you've selected a crypto and a currency.</p>
+        `;
+        return;
+      }
+      const response = await fetch(
+        `http://127.0.0.1:5000/guilds/${id}/channels`,
+        {
+          method: "POST",
+          headers: {
+            Session: cd_s,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            crypto_api_id: selectedCryptoAPIID,
+            currency_name: selectedCurrencyName,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.status === "ok") {
+        window.location.reload();
+      }
+    });
   });
 </script>
 
@@ -188,6 +218,7 @@ const { id } = Astro.params;
       <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
       <SearchMenu searchType="currencies" />
     </div>
-    <BaseButton text="Add channel" fullWidth />
+    <BaseButton text="Add channel" fullWidth id="add-channel-button" />
+    <div id="error" class="mt-4"></div>
   </div>
 </DashboardLayout>
