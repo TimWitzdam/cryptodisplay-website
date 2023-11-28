@@ -84,7 +84,7 @@ const cd_s = Astro.cookies.get("cd_s").value;
 </script>
 
 <DashboardLayout>
-  <section class="px-6">
+  <section class="px-6 max-w-5xl mx-auto">
     <div class="flex justify-between">
       <div>
         <h1 class="font-bold text-3xl">Dashboard</h1>
@@ -94,11 +94,13 @@ const cd_s = Astro.cookies.get("cd_s").value;
         <Fragment set:html={Refresh} />
       </div>
     </div>
-    <div class="grid grid-cols-1 grid-rows-1 gap-4 guilds">
+    <div
+      class="grid grid-cols-1 grid-rows-1 gap-4 guilds sm:grid-cols-2 lg:grid-cols-3"
+    >
       <!-- Guilds -->
     </div>
   </section>
-  <section class="px-6 mt-8">
+  <section class="px-6 mt-8 max-w-5xl mx-auto">
     <div class="flex gap-2 justify-between">
       <p class="opacity-60">
         Your server is not listed? Please make sure you have 'Manage Channels'
