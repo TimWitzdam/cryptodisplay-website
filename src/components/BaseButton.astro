@@ -12,7 +12,7 @@ const { text, secondary, icon, fullWidth, closeButton, id } = Astro.props;
 ---
 
 <button
-  class="rounded-xl p-3 px-8 h-fit font-semibold flex items-center justify-center gap-4 border-2 border-primary"
+  class="rounded-xl p-3 px-8 h-fit font-semibold flex items-center justify-center gap-4 border-2 border-primary hover:scale-[1.05] transition-transform"
   class:list={[
     { "w-full": fullWidth },
     { "bg-primary": !secondary },
