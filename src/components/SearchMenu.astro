@@ -7,9 +7,10 @@ interface Props {
 }
 
 const { searchType } = Astro.props;
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
 
-<script define:vars={{ searchID, cd_s, searchType }}>
+<script define:vars={{ searchID, cd_s, searchType, api_address }}>
   var items;
   var contentElement;
   var inputElement;
@@ -78,7 +79,7 @@ const { searchType } = Astro.props;
   const handleSearch = async () => {
     const searchTerm = inputElement.value.toLowerCase();
     const response = await fetch(
-      `http://127.0.0.1:7000/search/${searchType}/${searchTerm}`,
+      `${api_address}/search/${searchType}/${searchTerm}`,
       {
         headers: {
           Session: cd_s,

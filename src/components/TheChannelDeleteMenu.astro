@@ -3,9 +3,10 @@ import PopupMenu from "./PopupMenu.astro";
 import BaseButton from "./BaseButton.astro";
 
 const cd_s = Astro.cookies.get("cd_s").value;
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
 
-<script define:vars={{ cd_s }}>
+<script define:vars={{ cd_s, api_address }}>
   document.addEventListener("open-delete-modal", (e) => {
     const open_event = new Event("open-modal");
     document.dispatchEvent(open_event);
@@ -22,7 +23,7 @@ const cd_s = Astro.cookies.get("cd_s").value;
       const channel_id = e.detail.channel_id;
       const guild_id = e.detail.guild_id;
 
-      fetch(`http://127.0.0.1:5000/guilds/${guild_id}/channels/${channel_id}`, {
+      fetch(`${api_address}/guilds/${guild_id}/channels/${channel_id}`, {
         method: "DELETE",
         headers: {
           Session: cd_s,

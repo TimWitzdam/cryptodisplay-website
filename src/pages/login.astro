@@ -9,10 +9,12 @@ if (!auth_code) {
     "https://discord.com/api/oauth2/authorize?client_id=850066255472885800&redirect_uri=http%3A%2F%2Flocalhost%3A4321%2Flogin&response_type=code&scope=identify%20guilds"
   );
 }
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
 ---
 
-<script define:vars={{ auth_code }}>
-  fetch("http://127.0.0.1:5000/login", {
+<script define:vars={{ auth_code, api_address }}>
+  fetch(`${api_address}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
