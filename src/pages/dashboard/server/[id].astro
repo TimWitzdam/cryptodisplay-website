@@ -74,7 +74,7 @@ const { id } = Astro.params;
       </div>
     `;
     const response = await fetch(
-      `http://127.0.0.1:5000/guilds/${id}/channels?${
+      `http://127.0.0.1:7000/guilds/${id}/channels?${
         count ? `count=${count}` : ""
       }`,
       {
@@ -188,7 +188,7 @@ const { id } = Astro.params;
 </script>
 
 <DashboardLayout>
-  <div class="px-6">
+  <div class="px-6 max-w-5xl mx-auto">
     <div class="flex items-center gap-4">
       <div class="rotate-180">
         <Fragment set:html={Arrow} />
@@ -196,29 +196,35 @@ const { id } = Astro.params;
       <a href="/dashboard">Back to servers</a>
     </div>
     <p class="opacity-60 mt-8 mb-2">Current server:</p>
-    <div class="flex items-center gap-2" id="server"></div>
-    <h2 class="font-bold text-3xl mt-10">Active channels</h2>
-    <p class="opacity-60 mb-4">
-      View and delete your currently active channels on this server
-    </p>
-    <div id="channels" class="flex flex-col gap-4"></div>
-    <button class="w-full mt-4 hidden" id="show-all-channels">
-      <p class="text-center">Show all channels</p>
-    </button>
-    <div class="channel-delete-menu">
-      <TheChannelDeleteMenu />
+    <div class="flex items-center gap-2 md:mb-12" id="server"></div>
+    <div class="flex flex-col gap-4 md:flex-row md:gap-10">
+      <div>
+        <h2 class="font-bold text-3xl mt-10 md:mt-0">Active channels</h2>
+        <p class="opacity-60 mb-4">
+          View and delete your currently active channels on this server
+        </p>
+        <div id="channels" class="flex flex-col gap-4"></div>
+        <button class="w-full mt-4 hidden" id="show-all-channels">
+          <p class="text-center">Show all channels</p>
+        </button>
+        <div class="channel-delete-menu">
+          <TheChannelDeleteMenu />
+        </div>
+      </div>
+      <div class="basis-2/3">
+        <h2 class="font-bold text-3xl mt-10 md:mt-0">Add channel</h2>
+        <p class="opacity-60 mb-4">Here you can add a channel to the server</p>
+        <div>
+          <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
+          <SearchMenu searchType="cryptos" />
+        </div>
+        <div class="my-4">
+          <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
+          <SearchMenu searchType="currencies" />
+        </div>
+        <BaseButton text="Add channel" fullWidth id="add-channel-button" />
+        <div id="error" class="mt-4"></div>
+      </div>
     </div>
-    <h2 class="font-bold text-3xl mt-10">Add channel</h2>
-    <p class="opacity-60 mb-4">Here you can add a channel to the server</p>
-    <div>
-      <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
-      <SearchMenu searchType="cryptos" />
-    </div>
-    <div class="my-4">
-      <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
-      <SearchMenu searchType="currencies" />
-    </div>
-    <BaseButton text="Add channel" fullWidth id="add-channel-button" />
-    <div id="error" class="mt-4"></div>
   </div>
 </DashboardLayout>
