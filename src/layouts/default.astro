@@ -2,6 +2,11 @@
 import BaseButton from "../components/BaseButton.astro";
 import Bars from "../../public/icons/bars.svg?raw";
 
+var cd_s = Astro.cookies.get("cd_s");
+if (cd_s) {
+  cd_s = cd_s.value;
+}
+
 const paths: {
   name: string;
   link: string;
@@ -13,7 +18,11 @@ const paths: {
   }[];
 }[] = [
   { name: "Home", link: "/" },
-  { name: "Login", link: "/login" },
+  !cd_s
+    ? { name: "Login", link: "/login" }
+    : { name: "Dashboard", link: "/dashboard" },
+  { name: "Top.gg", link: "https://top.gg/bot/850066255472885800" },
+  { name: "Contact", link: "/contact" },
 ];
 
 Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
@@ -71,6 +80,10 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
       solutionsSubItems?.classList.remove("block");
     }
   });
+
+  for (var index = 0; index < links.length; index++) {
+    links[index].style.transitionDelay = index * 100 + "ms";
+  }
 </script>
 
 <html lang="en">
@@ -90,15 +103,33 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
             height="52"
           />
         </a>
-
-        <div class="hidden md:block">
-          <a href="/login">
-            <BaseButton text="Login" />
-          </a>
+        <div class="hidden md:flex items-center gap-6">
+          {
+            paths.map((path) =>
+              path.name != "Dashboard" && path.name != "Login" ? (
+                <a href={path.link} class="hover-animation p-2">
+                  {path.name}
+                </a>
+              ) : null
+            )
+          }
+          <div class="hidden md:block">
+            {
+              cd_s ? (
+                <a href="/dashboard">
+                  <BaseButton text="Dashboard" />
+                </a>
+              ) : (
+                <a href="/login">
+                  <BaseButton text="Login" />
+                </a>
+              )
+            }
+          </div>
         </div>
 
         <div class="w-8 md:hidden">
-          <button id="burger-menu-button" aria-label="Menü"
+          <button id="burger-menu-button" aria-label="Nav menu"
             ><Fragment set:html={Bars} /></button
           >
         </div>
@@ -124,7 +155,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
               path.subpaths ? (
                 <div class="text-3xl block font-bold" id="solutions">
                   <button
-                    class="flex justify-between items-center w-full py-4 transition-transform duration-500 ease-out delay-100 translate-x-full link link--dropdown"
+                    class="flex justify-between items-center w-full py-4 transition-transform duration-500 ease-in-out delay-100 translate-x-full link link--dropdown"
                     id="solutions-sub"
                   >
                     <span>{path.name}</span>
@@ -144,7 +175,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
                 </div>
               ) : (
                 <a
-                  class="py-4 text-3xl block transition-transform duration-500 ease-out translate-x-full link font-bold"
+                  class="py-4 text-3xl block transition-transform duration-500 ease-in-out translate-x-full link font-bold"
                   class:list={[
                     {
                       "text-primary":
