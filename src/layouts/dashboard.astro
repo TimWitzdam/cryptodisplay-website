@@ -13,7 +13,8 @@ const paths: {
   }[];
 }[] = [
   { name: "Home", link: "/" },
-  { name: "Login", link: "/login" },
+  { name: "Dashboard", link: "/dashboard" },
+  { name: "Logout", link: "/logout" },
 ];
 
 Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
@@ -71,6 +72,10 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
       solutionsSubItems?.classList.remove("block");
     }
   });
+
+  for (var index = 0; index < links.length; index++) {
+    links[index].style.transitionDelay = index * 100 + "ms";
+  }
 </script>
 
 <html lang="en">
@@ -91,14 +96,23 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
           />
         </a>
 
-        <div class="hidden md:block">
-          <a href="/login">
-            <BaseButton text="Login" />
-          </a>
+        <div class="hidden md:flex items-center gap-6">
+          {
+            paths.map((path) => (
+              <a href={path.link} class="hover-animation p-2">
+                {path.name}
+              </a>
+            ))
+          }
+          <div class="hidden md:block">
+            <a href="/invite">
+              <BaseButton text="Invite Bot" />
+            </a>
+          </div>
         </div>
 
         <div class="w-8 md:hidden">
-          <button id="burger-menu-button" aria-label="Menü"
+          <button id="burger-menu-button" aria-label="Nav menu"
             ><Fragment set:html={Bars} /></button
           >
         </div>
@@ -120,11 +134,11 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
         <div class="h-[1px] w-full bg-gray-500 mt-4"></div>
         <div class="px-6">
           {
-            paths.map((path) =>
+            paths.map((path, index) =>
               path.subpaths ? (
                 <div class="text-3xl block font-bold" id="solutions">
                   <button
-                    class="flex justify-between items-center w-full py-4 transition-transform duration-500 ease-out delay-100 translate-x-full link link--dropdown"
+                    class="flex justify-between items-center w-full py-4 transition-transform duration-500 ease-in-out delay-100 translate-x-full link link--dropdown"
                     id="solutions-sub"
                   >
                     <span>{path.name}</span>
@@ -144,7 +158,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
                 </div>
               ) : (
                 <a
-                  class="py-4 text-3xl block transition-transform duration-500 ease-out translate-x-full link font-bold"
+                  class="py-4 text-3xl block transition-transform duration-500 ease-in-out translate-x-full link font-bold"
                   class:list={[
                     {
                       "text-primary":
@@ -217,6 +231,27 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
 </style>
 
 <style>
+  .hover-animation {
+    position: relative;
+  }
+  .hover-animation::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #605ceb;
+    bottom: 2px;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .hover-animation:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
   .link--dropdown::after,
   .link--dropdown::before {
     content: "";
