@@ -90,11 +90,11 @@ const { id } = Astro.params;
       channelElement.innerHTML = "";
       for (const channel of data.channels) {
         channelElement.innerHTML += `
-        <div class="flex items-center justify-between border-2 border-primary rounded-xl p-4 font-semibold">
+        <div class="flex items-center justify-between border-2 border-primary rounded-xl pl-4 font-semibold">
           <div>
             <p>${channel.name}</p>
           </div>
-          <button class="delete-button" data-channel-id="${channel.id}">
+          <button class="delete-button p-4 hover:scale-[1.2] transition-transform" data-channel-id="${channel.id}">
             ${Trashcan}
           </button>
         </div>
@@ -189,7 +189,9 @@ const { id } = Astro.params;
 
 <DashboardLayout>
   <div class="px-6 max-w-5xl mx-auto">
-    <div class="flex items-center gap-4">
+    <div
+      class="flex items-center gap-4 opacity-60 hover:opacity-100 transition-opacity"
+    >
       <div class="rotate-180">
         <Fragment set:html={Arrow} />
       </div>

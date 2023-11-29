@@ -20,7 +20,16 @@ const { searchType } = Astro.props;
     contentElement.innerHTML = "";
     filteredData.forEach((item, index) => {
       const li = document.createElement("li");
-      li.classList.add("flex", "items-center", "gap-4", "p-4");
+      li.classList.add(
+        "flex",
+        "items-center",
+        "gap-4",
+        "p-4",
+        "cursor-pointer",
+        "hover:bg-primary",
+        "hover:bg-opacity-20",
+        "transition-colors"
+      );
       if (index === 0) {
         li.classList.add("border-t-2", "border-primary");
       }
@@ -69,9 +78,8 @@ const { searchType } = Astro.props;
   const handleSearch = async () => {
     const searchTerm = inputElement.value.toLowerCase();
     const response = await fetch(
-      `http://127.0.0.1:5000/search/${searchType}/${searchTerm}`,
+      `http://127.0.0.1:7000/search/${searchType}/${searchTerm}`,
       {
-        mode: "cors",
         headers: {
           Session: cd_s,
         },
@@ -137,3 +145,15 @@ const { searchType } = Astro.props;
   </div>
   <ul id=`content-${searchID}` class="max-h-[200px] overflow-y-scroll"></ul>
 </div>
+
+<style>
+  ul::-webkit-scrollbar {
+    width: 0.5em;
+    padding-right: 0.5em;
+    background: transparent;
+  }
+  ul::-webkit-scrollbar-thumb {
+    background: #605ceb;
+    border-radius: 9999999px;
+  }
+</style>
