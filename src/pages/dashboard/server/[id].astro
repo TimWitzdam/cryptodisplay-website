@@ -155,6 +155,8 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       }
     });
 
+    var customizations = {};
+
     const addChannelButton = document.getElementById("add-channel-button");
     const errorElement = document.getElementById("error");
     addChannelButton.addEventListener("click", async () => {
@@ -174,13 +176,38 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         body: JSON.stringify({
           crypto_api_id: selectedCryptoAPIID,
           currency_name: selectedCurrencyName,
+          customizations: customizations,
         }),
       });
       const data = await response.json();
       if (data.status === "ok") {
         window.location.reload();
+      } else {
+        errorElement.innerHTML = `
+          <p class="text-red-500">${data.data}</p>
+        `;
       }
     });
+
+    const toggleCustomizationDropdown = document.getElementById(
+      "toggle-customization-dropdown"
+    );
+    const customizationDropdown = document.getElementById(
+      "customization-dropdown"
+    );
+    toggleCustomizationDropdown.addEventListener("click", () => {
+      customizationDropdown.classList.toggle("hidden");
+      toggleCustomizationDropdown.querySelector("span").innerHTML =
+        customizationDropdown.classList.contains("hidden")
+          ? "Show customization options"
+          : "Hide customization options";
+    });
+
+    customizationDropdown
+      .querySelector("input")
+      .addEventListener("input", (e) => {
+        customizations.crypto_name = e.target.value;
+      });
   });
 </script>
 
@@ -217,9 +244,23 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
           <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
           <SearchMenu searchType="cryptos" />
         </div>
-        <div class="my-4">
+        <div class="my-4 mb-8">
           <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
           <SearchMenu searchType="currencies" />
+        </div>
+        <div class="w-full mb-8" id="toggle-customization-dropdown">
+          <span>Show customization options</span>
+        </div>
+        <div id="customization-dropdown" class="hidden mb-8">
+          <h3 class="font-semibold text-lg">Crypto name</h3>
+          <p class="opacity-60 mb-4">
+            Change the name of the crypto, if e.g. it's too long
+          </p>
+          <input
+            type="text"
+            placeholder="Name"
+            class="w-full border-2 border-primary rounded-xl p-4 bg-transparent focus-within:outline-none"
+          />
         </div>
         <BaseButton text="Add channel" fullWidth id="add-channel-button" />
         <div id="error" class="mt-4"></div>
