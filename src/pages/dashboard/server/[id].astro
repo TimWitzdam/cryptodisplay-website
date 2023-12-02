@@ -101,6 +101,19 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       `;
       }
 
+      if (data.gas_channel) {
+        channelElement.innerHTML += `
+        <div class="flex items-center justify-between border-2 border-primary rounded-xl pl-4 font-semibold">
+          <div>
+            <p>${data.gas_channel.name}</p>
+          </div>
+          <button class="delete-button p-4 hover:scale-[1.2] transition-transform" data-channel-id="${data.gas_channel.id}">
+            ${Trashcan}
+          </button>
+        </div>
+      `;
+      }
+
       document.querySelectorAll(".delete-button").forEach((deleteButton) => {
         deleteButton.addEventListener("click", () => {
           const channelId = deleteButton.dataset.channelId;
