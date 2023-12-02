@@ -4,6 +4,7 @@ import TheChannelDeleteMenu from "../../../components/TheChannelDeleteMenu.astro
 import BaseButton from "../../../components/BaseButton.astro";
 import SearchMenu from "../../../components/SearchMenu.astro";
 import Arrow from "../../../../public/icons/long-arrow.svg?raw";
+import ShortArrow from "../../../../public/icons/short-arrow.svg?raw";
 import Trashcan from "../../../../public/icons/trashcan.svg?raw";
 const cd_s = Astro.cookies.get("cd_s").value;
 const { id } = Astro.params;
@@ -156,6 +157,34 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       showAllChannelsButton.classList.add("hidden");
     });
 
+    const typeMenu = document.getElementById("type-menu");
+    const cryptoTypeButton = document.querySelector("#type-menu #crypto");
+    const gasTypeButton = document.querySelector("#type-menu #gas");
+    const cryptoMenu = document.getElementById("crypto-menu");
+    const gasMenu = document.getElementById("gas-menu");
+
+    const backToTypeSelectionButtons = document.querySelectorAll(
+      "#back-to-type-selection"
+    );
+
+    cryptoTypeButton.addEventListener("click", () => {
+      typeMenu.classList.add("hidden");
+      cryptoMenu.classList.remove("hidden");
+    });
+
+    gasTypeButton.addEventListener("click", () => {
+      typeMenu.classList.add("hidden");
+      gasMenu.classList.remove("hidden");
+    });
+
+    backToTypeSelectionButtons.forEach((backToTypeSelectionButton) => {
+      backToTypeSelectionButton.addEventListener("click", () => {
+        cryptoMenu.classList.add("hidden");
+        gasMenu.classList.add("hidden");
+        typeMenu.classList.remove("hidden");
+      });
+    });
+
     var selectedCryptoAPIID;
     var selectedCurrencyName;
 
@@ -189,7 +218,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
         body: JSON.stringify({
           crypto_api_id: selectedCryptoAPIID,
           currency_name: selectedCurrencyName,
-          customizations: customizations,
+          customization: customizations,
         }),
       });
       const data = await response.json();
@@ -221,6 +250,28 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       .addEventListener("input", (e) => {
         customizations.crypto_name = e.target.value;
       });
+
+    const addGasChannelButton = document.getElementById(
+      "add-gas-channel-button"
+    );
+
+    addGasChannelButton.addEventListener("click", async () => {
+      const response = await fetch(`${api_address}/guilds/${id}/channels/gas`, {
+        method: "POST",
+        headers: {
+          Session: cd_s,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status === "ok") {
+        window.location.reload();
+      } else {
+        gasMenu.querySelector(".error").innerHTML = `
+          <p class="text-red-500">${data.data}</p>
+        `;
+      }
+    });
   });
 </script>
 
@@ -253,30 +304,69 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       <div class="basis-2/3">
         <h2 class="font-bold text-3xl mt-10 md:mt-0">Add channel</h2>
         <p class="opacity-60 mb-4">Here you can add a channel to the server</p>
-        <div>
-          <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
-          <SearchMenu searchType="cryptos" />
+        <div id="type-menu">
+          <p class="font-semibold mb-4">Choose a channel type</p>
+          <div class="flex items-center gap-4">
+            <BaseButton text="Crypto" id="crypto" secondary fullWidth />
+            <BaseButton text="GAS" id="gas" secondary fullWidth />
+          </div>
         </div>
-        <div class="my-4 mb-8">
-          <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
-          <SearchMenu searchType="currencies" />
+        <div class="hidden" id="crypto-menu">
+          <div
+            class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity mb-4 cursor-pointer"
+            id="back-to-type-selection"
+          >
+            <div class="rotate-90">
+              <Fragment set:html={ShortArrow} />
+            </div>
+            <span>Back to type selection</span>
+          </div>
+          <div>
+            <p class="font-semibold mb-4">Crypto currency (e.g. BTC)</p>
+            <SearchMenu searchType="cryptos" />
+          </div>
+          <div class="my-4 mb-8">
+            <p class="font-semibold mb-4">Fiat currency (e.g. EUR)</p>
+            <SearchMenu searchType="currencies" />
+          </div>
+          <div class="w-full mb-8" id="toggle-customization-dropdown">
+            <span>Show customization options</span>
+          </div>
+          <div id="customization-dropdown" class="hidden mb-8">
+            <h3 class="font-semibold text-lg">Crypto name</h3>
+            <p class="opacity-60 mb-4">
+              Change the name of the crypto, if e.g. it's too long
+            </p>
+            <input
+              type="text"
+              placeholder="Name"
+              class="w-full border-2 border-primary rounded-xl p-4 bg-transparent focus-within:outline-none"
+            />
+          </div>
+          <BaseButton text="Add channel" fullWidth id="add-channel-button" />
+          <div id="error" class="mt-4"></div>
         </div>
-        <div class="w-full mb-8" id="toggle-customization-dropdown">
-          <span>Show customization options</span>
+        <div class="hidden" id="gas-menu">
+          <div
+            class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity mb-4 cursor-pointer"
+            id="back-to-type-selection"
+          >
+            <div class="rotate-90">
+              <Fragment set:html={ShortArrow} />
+            </div>
+            <span>Back to type selection</span>
+          </div>
+          <p>More options coming soon</p>
+          <div class="w-full my-4">
+            <BaseButton
+              text="Add GAS channel"
+              fullWidth
+              id="add-gas-channel-button"
+            />
+          </div>
+
+          <div class="error"></div>
         </div>
-        <div id="customization-dropdown" class="hidden mb-8">
-          <h3 class="font-semibold text-lg">Crypto name</h3>
-          <p class="opacity-60 mb-4">
-            Change the name of the crypto, if e.g. it's too long
-          </p>
-          <input
-            type="text"
-            placeholder="Name"
-            class="w-full border-2 border-primary rounded-xl p-4 bg-transparent focus-within:outline-none"
-          />
-        </div>
-        <BaseButton text="Add channel" fullWidth id="add-channel-button" />
-        <div id="error" class="mt-4"></div>
       </div>
     </div>
   </div>
