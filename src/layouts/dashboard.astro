@@ -78,6 +78,18 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
   }
 </script>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZDZ5VSJ3E"
+></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-JZDZ5VSJ3E");
+</script>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
