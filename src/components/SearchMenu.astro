@@ -8,9 +8,10 @@ interface Props {
 
 const { searchType } = Astro.props;
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+const cdn_address = import.meta.env.PUBLIC_CDN_ADDRESS;
 ---
 
-<script define:vars={{ searchID, cd_s, searchType, api_address }}>
+<script define:vars={{ searchID, cd_s, searchType, api_address, cdn_address }}>
   var items;
   var contentElement;
   var inputElement;
@@ -39,7 +40,7 @@ const api_address = import.meta.env.PUBLIC_API_ADDRESS;
       }
       if (item.image) {
         const img = document.createElement("img");
-        img.src = item.image;
+        img.src = `${cdn_address}/cryptos/${item.id}.png`;
         img.loading = "lazy";
         img.classList.add("w-10", "h-10", "rounded-full");
         li.appendChild(img);
