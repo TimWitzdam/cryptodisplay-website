@@ -30,8 +30,12 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
       like BTC, ETH, and 13,000 more. Also, track current gas prices.
     </p>
     <div class="mt-10 flex flex-col gap-4 md:flex-row md:w-1/2 md:mx-auto">
-      <BaseButton text="Try it out now" fullWidth />
-      <BaseButton text="Browse features" secondary fullWidth />
+      <a href="/login" class="w-full">
+        <BaseButton text="Try it out now" fullWidth />
+      </a>
+      <a href="#features" class="w-full">
+        <BaseButton text="Browse features" secondary fullWidth />
+      </a>
     </div>
   </section>
   <section class="mt-16 bg-secondary py-6">
@@ -44,11 +48,11 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
       <TheServerSwiper />
     </div>
   </section>
-  <section class="px-6 mt-16 max-w-5xl mx-auto">
+  <section class="px-6 mt-16 max-w-5xl mx-auto" id="features">
     <SideContent
       heading="Crypto prices at a glance"
       buttonText="Add to Discord"
-      buttonLink=""
+      buttonLink="https://discord.com/api/oauth2/authorize?client_id=850066255472885800&permissions=8&scope=bot"
     >
       <div slot="content">
         <p class="opacity-60">
@@ -71,7 +75,7 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
     <SideContent
       heading="Over 5.000 Crypto Currencies listed"
       buttonText="Add to Discord"
-      buttonLink=""
+      buttonLink="https://discord.com/api/oauth2/authorize?client_id=850066255472885800&permissions=8&scope=bot"
       right
     >
       <div slot="content">
@@ -118,9 +122,13 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
         Stay up to date.<br />All the time
       </h2>
       <div class="md:w-1/2 md:mx-auto">
-        <BaseButton text="Add to Discord" fullWidth>
-          <Fragment slot="buttonIcon" set:html={DiscordLogo} />
-        </BaseButton>
+        <a
+          href="https://discord.com/api/oauth2/authorize?client_id=850066255472885800&permissions=8&scope=bot"
+        >
+          <BaseButton text="Add to Discord" fullWidth>
+            <Fragment slot="buttonIcon" set:html={DiscordLogo} />
+          </BaseButton>
+        </a>
       </div>
     </div>
   </section>
