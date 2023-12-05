@@ -5,9 +5,7 @@ if (cookie) {
   return Astro.redirect("/dashboard");
 }
 if (!auth_code) {
-  return Astro.redirect(
-    "https://discord.com/api/oauth2/authorize?client_id=850066255472885800&redirect_uri=http%3A%2F%2Flocalhost%3A4321%2Flogin&response_type=code&scope=identify%20guilds"
-  );
+  return Astro.redirect(import.meta.env.DISCORD_LOGIN_REDIRECT);
 }
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
