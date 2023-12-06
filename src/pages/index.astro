@@ -4,6 +4,7 @@ import SideContent from "../components/SideContent.astro";
 import TheServerSwiper from "../components/TheServerSwiper.astro";
 import Layout from "../layouts/default.astro";
 import DiscordLogo from "../../public/icons/discord.svg?raw";
+import EmailIcon from "../../public/icons/mail.svg?raw";
 ---
 
 <title>CryptoDisplay Bot - Track Crypto Prices On Discord</title>
@@ -108,11 +109,18 @@ import DiscordLogo from "../../public/icons/discord.svg?raw";
         />
       </div>
       <div>
-        <h3 class="font-bold text-xl">Tim Witzdam</h3>
-        <div class="flex items-center gap-1 opacity-60">
+        <h3 class="font-bold text-xl mb-2">Tim Witzdam</h3>
+        <div class="flex items-center gap-1 opacity-60 mb-1">
           <Fragment set:html={DiscordLogo} />
           <p>@nightslide_</p>
         </div>
+        <a
+          href="mailto:contact@witzdam.com"
+          class="flex items-center gap-1 opacity-60 hover:opacity-100 transition-opacity"
+        >
+          <Fragment set:html={EmailIcon} />
+          <p>contact@witzdam.com</p>
+        </a>
       </div>
     </div>
   </section>
