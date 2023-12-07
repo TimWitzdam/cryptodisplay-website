@@ -5,6 +5,7 @@ import Bars from "../../public/icons/bars.svg?raw";
 const paths: {
   name: string;
   link: string;
+  newTab?: boolean;
   subpaths?: {
     name: string;
     link: string;
@@ -12,9 +13,9 @@ const paths: {
     description?: string;
   }[];
 }[] = [
-  { name: "Home", link: "/" },
-  { name: "Dashboard", link: "/dashboard" },
-  { name: "Logout", link: "/logout" },
+  { name: "Home", link: "/", newTab: false },
+  { name: "Dashboard", link: "/dashboard", newTab: false },
+  { name: "Logout", link: "/logout", newTab: false },
 ];
 
 Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
@@ -78,17 +79,21 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
   }
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZDZ5VSJ3E"
-></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
+{
+  import.meta.env.MODE === "production" ? (
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZDZ5VSJ3E"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag("config", "G-JZDZ5VSJ3E");
-</script>
+      gtag("config", "G-JZDZ5VSJ3E");
+    </script>
+  ) : null
+}
+
 
 <html lang="en">
   <head>
@@ -136,13 +141,13 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
         <div class="hidden md:flex items-center gap-6">
           {
             paths.map((path) => (
-              <a href={path.link} class="hover-animation p-2">
+              <a href={path.link} class="hover-animation p-2" target={path.newTab ? '_blank': '_self'}>
                 {path.name}
               </a>
             ))
           }
           <div class="hidden md:block">
-            <a href="/invite">
+            <a href="/invite" target="_blank">
               <BaseButton text="Invite Bot" />
             </a>
           </div>

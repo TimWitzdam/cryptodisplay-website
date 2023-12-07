@@ -31,7 +31,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
       coins.
     </p>
     <div class="mt-10 flex flex-col gap-4 md:flex-row md:w-1/2 md:mx-auto">
-      <a href="/login" class="w-full">
+      <a href="/login" class="w-full" target="_blank">
         <BaseButton text="Try it out now" fullWidth />
       </a>
       <a href="#features" class="w-full">
@@ -44,7 +44,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
       <p
         class="text-[#A5A5A8] text-center mb-4 font-semibold px-6 max-w-5xl mx-auto"
       >
-        ✅ Trusted by <span>7.621</span> servers
+        ✅ Trusted by <span>7.981</span> servers
       </p>
       <TheServerSwiper />
     </div>
@@ -54,6 +54,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
       heading="Crypto Prices at a Glance"
       buttonText="Add to Discord"
       buttonLink="/invite"
+      buttonNewTab
     >
       <div slot="content">
         <p class="opacity-60">
@@ -77,6 +78,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
       heading="Over 11.000 Crypto Currencies listed"
       buttonText="Add to Discord"
       buttonLink="/invite"
+      buttonNewTab
       right
     >
       <div slot="content">
@@ -130,7 +132,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
         Stay up to date.<br />All the time
       </h2>
       <div class="md:w-1/2 md:mx-auto">
-        <a href="/invite">
+        <a href="/invite" target="_blank">
           <BaseButton text="Add to Discord" fullWidth>
             <Fragment slot="buttonIcon" set:html={DiscordLogo} />
           </BaseButton>

@@ -5,9 +5,10 @@ interface Props {
   heading: string;
   buttonText: string;
   buttonLink: string;
+  buttonNewTab?: boolean;
 }
 
-const { right, heading, buttonText, buttonLink } = Astro.props;
+const { right, heading, buttonText, buttonLink, buttonNewTab } = Astro.props;
 ---
 
 <div
@@ -21,7 +22,7 @@ const { right, heading, buttonText, buttonLink } = Astro.props;
     <div class="mb-6">
       <slot name="content" />
     </div>
-    <a href={buttonLink}>
+    <a href={buttonLink} target={buttonNewTab ? "_blank" : "_self"}>
       <BaseButton text={buttonText} fullWidth>
         <slot name="buttonIcon" slot="buttonIcon" />
       </BaseButton>

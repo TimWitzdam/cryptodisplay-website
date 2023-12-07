@@ -10,6 +10,7 @@ if (cd_s) {
 const paths: {
   name: string;
   link: string;
+  newTab?: boolean;
   subpaths?: {
     name: string;
     link: string;
@@ -19,10 +20,10 @@ const paths: {
 }[] = [
   { name: "Home", link: "/" },
   !cd_s
-    ? { name: "Login", link: "/login" }
-    : { name: "Dashboard", link: "/dashboard" },
-  { name: "Top.gg", link: "https://top.gg/bot/850066255472885800" },
-  { name: "Contact", link: "https://discord.gg/7b9V6rNwr6" },
+    ? { name: "Login", link: "/login", newTab: true }
+    : { name: "Dashboard", link: "/dashboard", newTab: true },
+  { name: "Top.gg", link: "https://top.gg/bot/850066255472885800", newTab: true },
+  { name: "Contact", link: "https://discord.gg/7b9V6rNwr6", newTab: true },
 ];
 
 Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
@@ -86,17 +87,20 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
   }
 </script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JZDZ5VSJ3E"
-></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
+{
+  import.meta.env.MODE === "production" ? (
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JZDZ5VSJ3E"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  gtag("config", "G-JZDZ5VSJ3E");
-</script>
+      gtag("config", "G-JZDZ5VSJ3E");
+    </script>
+  ) : null
+}
 
 <html lang="en">
   <head>
@@ -144,7 +148,7 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
           {
             paths.map((path) =>
               path.name != "Dashboard" && path.name != "Login" ? (
-                <a href={path.link} class="hover-animation p-2">
+                <a href={path.link} class="hover-animation p-2" target={path.newTab ? '_blank': '_self'}>
                   {path.name}
                 </a>
               ) : null
@@ -153,11 +157,11 @@ Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
           <div class="hidden md:block">
             {
               cd_s ? (
-                <a href="/dashboard">
+                <a href="/dashboard" target="_blank">
                   <BaseButton text="Dashboard" />
                 </a>
               ) : (
-                <a href="/login">
+                <a href="/login" target="_blank">
                   <BaseButton text="Login" />
                 </a>
               )
