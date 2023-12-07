@@ -1,8 +1,8 @@
 <div align="center">
-    <a href="https://cryptodisplay.net" align="center">
+    <a href="https://cryptodisplay.net?utm_source=github&utm_medium=image_banner" align="center">
         <img src="https://cryptodisplay.net/logo.webp" alt="CryptoDisplay Logo" height="250" />
     </a>
-    <h1 align="center">Website of <a href="https://cryptodisplay.net" target="_blank">CryptoDisplay</a></h1>
+    <h1 align="center">Website of <a href="https://cryptodisplay.net?utm_source=github&utm_medium=heading_1" target="_blank">CryptoDisplay</a></h1>
     <p align="center">Easily track crypto prices and gas fees in <a href="https://discord.com" target="_blank">Discord</a>. Always stay up to date with real-time data in your home currency.</p>
     <br />
     <a href="https://discord.gg/7b9V6rNwr6" target="_blank">
@@ -19,7 +19,7 @@
 ## 🚀 Usage
 
 1. [Add CryptoDisplay to your server](https://cryptodisplay.net/invite)
-2. Use [cryptodisplay.net](https://cryptodisplay.net) to set up channels.
+2. Use [cryptodisplay.net](https://cryptodisplay.net?utm_source=github&utm_medium=usage) to set up channels.
 
 Alternatively you can use the commands listed below.👇
 
