@@ -5,7 +5,7 @@ if (cookie) {
   return Astro.redirect("/dashboard");
 }
 if (!auth_code) {
-  return Astro.redirect(import.meta.env.DISCORD_LOGIN_REDIRECT);
+  return Astro.redirect(import.meta.env.PUBLIC_DISCORD_LOGIN_REDIRECT);
 }
 
 const api_address = import.meta.env.PUBLIC_API_ADDRESS;
