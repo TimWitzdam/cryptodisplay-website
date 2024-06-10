@@ -5,6 +5,20 @@ import TheServerSwiper from "../components/TheServerSwiper.astro";
 import Layout from "../layouts/default.astro";
 import DiscordLogo from "../../public/icons/discord.svg?raw";
 import EmailIcon from "../../public/icons/mail.svg?raw";
+
+const api_address = import.meta.env.PUBLIC_API_ADDRESS;
+
+var serverCount = await fetch(`${api_address}/server-count`).then((res) =>
+  res.json().then((data) => {
+    if (data.status !== "ok") {
+      return 0;
+    } else {
+      return data.data;
+    }
+  })
+);
+
+serverCount = serverCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 ---
 
 <title>CryptoDisplay Bot - Track Crypto Prices On Discord</title>
@@ -44,7 +58,7 @@ import EmailIcon from "../../public/icons/mail.svg?raw";
       <p
         class="text-[#A5A5A8] text-center mb-4 font-semibold px-6 max-w-5xl mx-auto"
       >
-        ✅ Trusted by <span>7.981</span> servers
+        ✅ Trusted by <span>{serverCount}</span> servers
       </p>
       <TheServerSwiper />
     </div>
